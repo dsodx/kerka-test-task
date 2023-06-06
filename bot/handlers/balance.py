@@ -16,14 +16,18 @@ class RepBalance(StatesGroup):
 
 @router.message(Command("replenish"))
 @router.callback_query(F.data == "replenish_balance")
-async def start_cmd(callback: CallbackQuery, state: FSMContext) -> None:
+async def replenish(update: Message | CallbackQuery, state: FSMContext) -> None:
     # сумма должна быть от $1 до $10**4; я чуть округлил =)
     # https://core.telegram.org/bots/payments#supported-currencies
-    await callback.message.answer("Введите сумму, на которую вы хотите пополнить баланс\n\n"
-                                  "Сумма должна быть от 100 до 75000\u20BD\n"
-                                  "в формате: <code>x[.yy]</code>, "
-                                  "где <code>x</code> - рубли, а <code>yy</code> - копейки")
-    await callback.answer()
+    text = "Введите сумму, на которую вы хотите пополнить баланс\n\n" \
+           "Сумма должна быть от 100 до 75000\u20BD\n" \
+           "в формате: <code>x[.yy]</code>, " \
+           "где <code>x</code> - рубли, а <code>yy</code> - копейки"
+    if isinstance(update, Message):
+        await update.answer(text)
+    else:
+        await update.message.answer(text)
+        await update.answer()
     await state.set_state(RepBalance.input_amount)
 
 
