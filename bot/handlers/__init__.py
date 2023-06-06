@@ -1,7 +1,8 @@
 from aiogram import Dispatcher
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
 
-def setup_routers(dp: Dispatcher) -> None:
+def setup_routers(dp: Dispatcher, session_pool: async_sessionmaker) -> None:
     from . import start
     dp.include_router(start.router)
 
