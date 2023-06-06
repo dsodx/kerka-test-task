@@ -1,11 +1,12 @@
-from aiogram.types import InlineKeyboardMarkup, LabeledPrice
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from typing import List
 
+from aiogram.types import InlineKeyboardMarkup, LabeledPrice
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-def get_rep_balance_kb() -> InlineKeyboardMarkup:
+
+def get_balance_kb() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.button(text="Пополнить баланс", callback_data="rep_balance")
+    builder.button(text="Пополнить баланс", callback_data="replenish_balance")
     return builder.as_markup()
 
 
