@@ -21,6 +21,7 @@ async def main() -> None:
     bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
     storage = RedisStorage.from_url(config.redis_dsn)
     dp = Dispatcher(storage=storage)
+    dp["config"] = config
 
     await setup(dp=dp)
 
