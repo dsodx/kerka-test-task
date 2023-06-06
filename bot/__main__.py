@@ -5,6 +5,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.redis import RedisStorage
 
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+
 from .config import config
 from .handlers import setup_routers
 
@@ -17,6 +19,9 @@ async def setup(dp: Dispatcher) -> None:
 
 async def main() -> None:
     logging.basicConfig(level=logging.INFO)
+
+    engine = create_async_engine(config.postgres_dsn)
+    session_pool = async_sessionmaker(engine, expire_on_commit=False)
 
     bot = Bot(token=config.bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
     storage = RedisStorage.from_url(config.redis_dsn)
