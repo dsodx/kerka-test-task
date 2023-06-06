@@ -13,4 +13,5 @@ def setup_routers(dp: Dispatcher, session_pool: async_sessionmaker) -> None:
     dp.include_router(balance.router)
 
     from . import replenish
+    replenish.router.message.middleware(SessionMiddleware(session_pool=session_pool))
     dp.include_router(replenish.router)

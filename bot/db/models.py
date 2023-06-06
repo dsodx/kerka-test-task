@@ -1,4 +1,4 @@
-from sqlalchemy import BIGINT
+from sqlalchemy.dialects.postgresql import BIGINT
 from sqlalchemy.orm import mapped_column, Mapped, DeclarativeBase
 
 
