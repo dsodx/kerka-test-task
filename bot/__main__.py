@@ -8,11 +8,14 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from .config import config
 from .handlers import setup_routers
+from .ui import setup_default_commands
 
 logger = logging.getLogger(__name__)
 
 
-async def setup(dp: Dispatcher, session_pool: async_sessionmaker) -> None:
+async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -> None:
+    await bot.delete_webhook(drop_pending_updates=True)
+    await setup_default_commands(bot)
     setup_routers(dp=dp, session_pool=session_pool)
 
 
@@ -27,7 +30,7 @@ async def main() -> None:
     dp = Dispatcher(storage=storage)
     dp["config"] = config
 
-    await setup(dp=dp, session_pool=session_pool)
+    await setup(bot=bot, dp=dp, session_pool=session_pool)
 
     logger.warning("Running bot..")
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

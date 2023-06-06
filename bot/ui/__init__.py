@@ -1,6 +1,9 @@
 from .replenish import get_balance_kb, get_prices
+from .commands import get_default_commands, setup_default_commands
 
 __all__ = (
     "get_balance_kb",
-    "get_prices"
+    "get_prices",
+    "get_default_commands",
+    "setup_default_commands"
 )
