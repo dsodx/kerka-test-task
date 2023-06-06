@@ -7,3 +7,6 @@ def setup_routers(dp: Dispatcher) -> None:
 
     from . import balance
     dp.include_router(balance.router)
+
+    from . import replenish
+    dp.include_router(replenish.router)
