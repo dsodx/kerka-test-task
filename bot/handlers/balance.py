@@ -1,10 +1,11 @@
 from aiogram import Router, F
-from aiogram.types import CallbackQuery, Message
-from aiogram.fsm.state import State, StatesGroup
+from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import CallbackQuery, Message
 
-from ..ui import get_prices
 from ..config import Settings
+from ..ui import get_prices
 
 router = Router()
 
@@ -13,6 +14,7 @@ class RepBalance(StatesGroup):
     input_amount = State()
 
 
+@router.message(Command("replenish"))
 @router.callback_query(F.data == "replenish_balance")
 async def start_cmd(callback: CallbackQuery, state: FSMContext) -> None:
     # сумма должна быть от $1 до $10**4; я чуть округлил =)
@@ -34,7 +36,7 @@ async def input_amount(message: Message, state: FSMContext, amount: float, confi
         payload="_",  # не используется
         provider_token=config.provider_token.get_secret_value(),
         currency="RUB",
-        prices=get_prices(int(amount*100)),
+        prices=get_prices(int(amount * 100)),
         start_parameter="_",  # для того чтобы нельзя было оплатить из других чатов
         need_name=True,
     )

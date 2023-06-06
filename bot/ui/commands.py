@@ -7,6 +7,7 @@ from aiogram.types import BotCommand
 def get_default_commands() -> List[BotCommand]:
     return [
         BotCommand(command="start", description="Перезапустить бота"),
+        BotCommand(command="replenish", description="Пополнить баланс"),
         BotCommand(command="my_balance", description="Посмотреть свой баланс")
     ]
 
