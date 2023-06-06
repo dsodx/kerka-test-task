@@ -12,5 +12,5 @@ def get_balance_kb() -> InlineKeyboardMarkup:
 
 def get_prices(amount: int) -> List[LabeledPrice]:
     return [
-        LabeledPrice(label="Сумма пополнения", amount=amount)
+        LabeledPrice(label="Сумма", amount=amount)
     ]
