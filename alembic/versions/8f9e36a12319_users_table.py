@@ -21,7 +21,7 @@ def upgrade() -> None:
     op.create_table(
         'users',
         sa.Column('id', sa.BIGINT(), autoincrement=False, nullable=False),
-        sa.Column('balance', sa.BIGINT(), nullable=False),
+        sa.Column('balance', sa.BIGINT(), nullable=False, default=0),
         sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

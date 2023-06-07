@@ -21,3 +21,8 @@ async def update_user_balance(session: AsyncSession, /, user_id: int, inc: int) 
 async def get_user_balance(session: AsyncSession, /, user_id: int) -> float:
     balance: int = (await session.get(User, ident=user_id)).balance
     return balance / 100
+
+
+async def is_user_banned(session: AsyncSession, /, user_id: int) -> bool:
+    user = await session.get(User, ident=user_id)
+    return False if user is None else user.banned

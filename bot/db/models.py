@@ -1,4 +1,4 @@
-from sqlalchemy.dialects.postgresql import BIGINT
+from sqlalchemy.dialects.postgresql import BIGINT, BOOLEAN
 from sqlalchemy.orm import mapped_column, Mapped, DeclarativeBase
 
 
@@ -11,3 +11,4 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(BIGINT, primary_key=True, autoincrement=False)
     balance: Mapped[int] = mapped_column(BIGINT, nullable=False, default=0)
+    banned: Mapped[bool] = mapped_column(BOOLEAN, nullable=False, default=False)
