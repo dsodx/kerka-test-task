@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from .config import config
 from .handlers import setup_routers
 from .ui import setup_default_commands
+from .middlewares import BanMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -> None:
     await bot.delete_webhook(drop_pending_updates=True)
     await setup_default_commands(bot)
+    dp.update.middleware(BanMiddleware(session_pool=session_pool))
     setup_routers(dp=dp, session_pool=session_pool)
 
 
@@ -33,7 +35,7 @@ async def main() -> None:
     await setup(bot=bot, dp=dp, session_pool=session_pool)
 
     logger.warning("Running bot..")
-    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()+["pollanswer"])
 
 
 if __name__ == "__main__":
