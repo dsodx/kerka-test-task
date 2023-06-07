@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, SecretStr, RedisDsn, PostgresDsn
+from pydantic import BaseSettings, SecretStr, RedisDsn, PostgresDsn, HttpUrl
 
 
 class Settings(BaseSettings):
@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     provider_token: SecretStr
     redis_dsn: RedisDsn
     postgres_dsn: PostgresDsn
+    webapp_url: HttpUrl
 
     class Config:
         env_file = ".env"

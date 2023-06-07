@@ -3,3 +3,5 @@ venv/
 __pychache__/
 
 .env
+id_rsa
+id_rsa.pub

@@ -21,3 +21,6 @@ def setup_routers(dp: Dispatcher, session_pool: async_sessionmaker) -> None:
     from . import my_balance
     my_balance.router.message.middleware(session_m)
     dp.include_router(my_balance.router)
+
+    from . import admin
+    dp.include_router(admin.router)
