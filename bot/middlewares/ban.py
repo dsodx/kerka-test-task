@@ -17,7 +17,7 @@ class BanMiddleware(BaseMiddleware):
             event: Update,
             data: Dict[str, Any]
     ) -> Any:
-        if event.event.from_user.id:
+        if hasattr(event.event, "from_user"):
             async with self.session_pool() as session:
                 is_banned = await is_user_banned(session, user_id=event.event.from_user.id)
             if is_banned:
