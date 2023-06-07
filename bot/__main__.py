@@ -10,6 +10,7 @@ from .config import config
 from .handlers import setup_routers
 from .ui import setup_default_commands
 from .middlewares import BanMiddleware
+from .webapp import setup_webapp
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -
     await setup_default_commands(bot)
     dp.update.middleware(BanMiddleware(session_pool=session_pool))
     setup_routers(dp=dp, session_pool=session_pool)
+    await setup_webapp(session_pool=session_pool, bot_token=bot.token)
 
 
 async def main() -> None:
