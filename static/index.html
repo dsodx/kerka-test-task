@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+<!--    скрипт для инициализации и взаимодействия веб-приложения-->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -29,6 +30,10 @@
     <script>
         let webapp = window.Telegram.WebApp;
 
+        /*
+        * Верифицирует данные веб-приложения при старте;
+        * приветствует пользователя
+        * */
         async function verifyInitData() {
             let r = await fetch("/verifyInitData", {
                 method: "POST",
@@ -49,6 +54,9 @@
             }
         }
 
+        /*
+        * Изменить статус блокировки пользователя в бд
+        * */
         async function editBanField(userId) {
             let r = await fetch("/editBanField", {
                 method: "POST",
@@ -63,6 +71,9 @@
             bannedTd.innerText = json["is_banned"];
         }
 
+        /*
+        * Изменить баланс пользователя в бд
+        * */
         async function editBalanceField(userId) {
             let newBalance = prompt("Новый баланс (используйте '+' или '-' для относительных значений)");
             if (newBalance === "" || newBalance == null) return;
@@ -80,6 +91,9 @@
             balanceTd.innerText = json["new_balance"];
         }
 
+        /*
+        * Получить список пользователей
+        * */
         async function getUsers() {
             let r = await fetch("/getUsers", {
                 method: "POST",
@@ -119,6 +133,9 @@
             }
         }
 
+        /*
+        * Инициализация страницы
+        * */
         async function onLoad() {
             await verifyInitData();
             await getUsers();
@@ -130,6 +147,7 @@
     <h2>List of users</h2>
     <h3 id="username">Hello,&nbsp;</h3>
     <h4>Click on field to change it's value</h4>
+<!--    таблица пользователей-->
     <table id="users">
         <tr>
             <th>ID</th>

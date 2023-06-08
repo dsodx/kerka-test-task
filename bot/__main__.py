@@ -16,6 +16,13 @@ logger = logging.getLogger(__name__)
 
 
 async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -> None:
+    """
+    Настройка бота перед запуском
+    :param bot: объект бота
+    :param dp: объект диспетчера
+    :param session_pool: объект пула сессий
+    :return:
+    """
     await bot.delete_webhook(drop_pending_updates=True)
     await setup_default_commands(bot)
     dp.update.middleware(BanMiddleware(session_pool=session_pool))
@@ -24,6 +31,11 @@ async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -
 
 
 async def main() -> None:
+    """
+    Создание объектов;
+    Запуск бота
+    :return:
+    """
     logging.basicConfig(level=logging.INFO)
 
     engine = create_async_engine(config.postgres_dsn)

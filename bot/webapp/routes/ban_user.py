@@ -6,6 +6,11 @@ from ...db import bun_or_unban_user
 
 
 async def edit_banned_field(request: Request) -> Response:
+    """
+    Изменить статус блокировки пользователя в бд
+    :param request: объект запроса
+    :return: объект json-ответа
+    """
     ban = None
     if await verify_init_data(request):
         session_pool: async_sessionmaker = request.app.get("session_pool")

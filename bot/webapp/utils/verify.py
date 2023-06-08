@@ -5,6 +5,11 @@ from ...config import Settings
 
 
 async def verify_init_data(request: Request) -> bool:
+    """
+    Верифицировать данные из веб-приложения
+    :param request: объект запроса
+    :return: результат верификации данных веб-приложения
+    """
     token: str = request.app.get("bot_token")
     init_data: str = (await request.json()).get("initData", "")
     config: Settings = request.app.get("config")

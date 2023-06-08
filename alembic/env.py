@@ -12,6 +12,7 @@ from bot.config import config as settings
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+# динамическая подстановка источника данных из объекта настроек бота
 config.set_main_option("sqlalchemy.url", value=settings.postgres_dsn)
 
 # Interpret the config file for Python logging.
@@ -19,17 +20,8 @@ config.set_main_option("sqlalchemy.url", value=settings.postgres_dsn)
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+# метаданные для автоматической генерации ревизий
 target_metadata = Base.metadata
-
-
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
 
 
 def run_migrations_offline() -> None:

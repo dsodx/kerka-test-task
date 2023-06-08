@@ -13,4 +13,10 @@ router.message.filter(F.chat.type == ChatType.PRIVATE)
 
 @router.message(Command("admin"), IsAdminFilter(is_admin=True))
 async def start_cmd(message: Message, config: Settings) -> None:
+    """
+    Отправить панель управления админу бота
+    :param message: объект сообщения
+    :param config: объект настроек бота
+    :return:
+    """
     await message.answer("Here", reply_markup=get_admin_kb(config.webapp.url))
