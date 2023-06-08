@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  bot:
+    build: .
+    restart: always
+    environment:
+      - BOT_TOKEN
+      - PROVIDER_TOKEN
+      - REDIS_DSN
+      - POSTGRES_DSN
+      - WEBAPP_HOST
+      - WEBAPP_PORT
+      - WEBAPP_URL
+      - ADMIN_IDS_RAW
