@@ -8,30 +8,27 @@
         body {
             font-family: "JetBrains Mono", monospace;
         }
+
         table {
-            border-spacing: 0;
-            border-collapse: collapse;
+            border-spacing: 1px;
         }
+
         td, th {
             border: 2px solid black;
+            border-radius: 10px;
+            padding: 5px;
+            width: 85px;
+            height: 35px;
+            text-align: center;
         }
+
         th {
             background-color: darkorange;
-        }
-        input {
-            width: 25px;
-            padding: 0;
-        }
-        .input {
-            width: 100px;
-        }
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            display: none;
         }
     </style>
     <script>
         let webapp = window.Telegram.WebApp;
+
         async function verifyInitData() {
             let r = await fetch("/verifyInitData", {
                 method: "POST",
@@ -45,6 +42,7 @@
                 webapp.close();
             }
         }
+
         async function editBanField(userId) {
             let r = await fetch("/editBanField", {
                 method: "POST",
@@ -56,6 +54,7 @@
             let bannedTd = document.getElementById("banned-" + userId);
             bannedTd.innerText = json["is_banned"];
         }
+
         async function editBalanceField(userId) {
             let newBalance = prompt("Новый баланс");
             let r = await fetch("/editBalanceField", {
@@ -69,6 +68,7 @@
             let balanceTd = document.getElementById("balance-" + userId);
             balanceTd.innerText = json["new_balance"];
         }
+
         async function getPosts() {
             let r = await fetch("/getUsers", {
                 method: "POST"
@@ -87,11 +87,12 @@
                 let balanceTd = document.createElement("td");
                 balanceTd.innerText = Number(user["balance"]) / 100;
                 balanceTd.setAttribute("onclick", "editBalanceField(" + user["id"] + ")");
+                balanceTd.setAttribute("style", "text-align: right;")
                 balanceTd.setAttribute("id", "balance-" + user["id"]);
 
                 let bannedTd = document.createElement("td");
                 bannedTd.innerText = user["banned"];
-                bannedTd.setAttribute("onclick", "editBanField(" + user["id"] +")");
+                bannedTd.setAttribute("onclick", "editBanField(" + user["id"] + ")");
                 bannedTd.setAttribute("id", "banned-" + user["id"]);
 
                 let userDiv = document.createElement("tr");
@@ -102,6 +103,7 @@
                 usersDiv.appendChild(userDiv);
             }
         }
+
         async function onLoad() {
             let nameH2 = document.getElementById("username");
             nameH2.innerText += webapp.initDataUnsafe.user.first_name;
