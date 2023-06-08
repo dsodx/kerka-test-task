@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         return tuple(map(int, self.admin_ids_raw.split(",")))
 
     class Config:
-        env_file = ".env"
+        # env_file = ".env"
         env_nested_delimiter = "_"
 
 
