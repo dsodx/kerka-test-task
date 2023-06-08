@@ -11,6 +11,13 @@ router = Router()
 
 @router.message(CommandStart())
 async def start_cmd(message: Message, session: AsyncSession) -> None:
+    """
+    Приветственное сообщение;
+    добавить пользователя в бд, если его там нет
+    :param message: объект сообщения
+    :param session: объект сессии
+    :return:
+    """
     await add_new_user(session, user_id=message.from_user.id)
     await session.commit()
     await message.answer(f"Привет, {html.quote(message.from_user.full_name)}!")
