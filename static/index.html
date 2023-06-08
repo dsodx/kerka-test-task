@@ -36,14 +36,16 @@
                     initData: webapp.initData
                 })
             });
-            let json = await r.json()
+            let json = await r.json();
             if (!json["ok"]) {
                 webapp.close();
                 window.open("about:blank", "_self");
             }
             else {
+                webapp.expand();
                 let nameH2 = document.getElementById("username");
                 nameH2.innerText += webapp.initDataUnsafe.user.first_name;
+                webapp.ready();
             }
         }
 
@@ -100,7 +102,7 @@
                 let balanceTd = document.createElement("td");
                 balanceTd.innerText = Number(user["balance"]) / 100;
                 balanceTd.setAttribute("onclick", "editBalanceField(" + user["id"] + ")");
-                balanceTd.setAttribute("style", "text-align: right;")
+                balanceTd.setAttribute("style", "text-align: right;");
                 balanceTd.setAttribute("id", "balance-" + user["id"]);
 
                 let bannedTd = document.createElement("td");
