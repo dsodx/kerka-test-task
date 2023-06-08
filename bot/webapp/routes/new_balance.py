@@ -6,6 +6,11 @@ from ...db import update_user_balance
 
 
 async def new_user_balance(request: Request) -> Response:
+    """
+    Изменить баланс пользователя в бд
+    :param request: объект запроса
+    :return: объект json-ответа
+    """
     new_balance = None
     if await verify_init_data(request):
         session_pool: async_sessionmaker = request.app.get("session_pool")

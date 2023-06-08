@@ -6,6 +6,11 @@ from ...db import get_all_users
 
 
 async def get_users(request: Request) -> Response:
+    """
+    Получить список пользователей из бд
+    :param request: объект запроса
+    :return: объект json-ответа
+    """
     users = None
     if await verify_init_data(request):
         session_pool: async_sessionmaker = request.app.get("session_pool")
