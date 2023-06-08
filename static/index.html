@@ -38,8 +38,12 @@
             });
             let json = await r.json()
             if (!json["ok"]) {
-                document.write("Not allowed");
                 webapp.close();
+                window.open("about:blank", "_self");
+            }
+            else {
+                let nameH2 = document.getElementById("username");
+                nameH2.innerText += webapp.initDataUnsafe.user.first_name;
             }
         }
 
@@ -105,8 +109,6 @@
         }
 
         async function onLoad() {
-            let nameH2 = document.getElementById("username");
-            nameH2.innerText += webapp.initDataUnsafe.user.first_name;
             await verifyInitData();
             await getPosts();
         }
