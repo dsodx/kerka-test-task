@@ -1,4 +1,5 @@
-from aiogram import Router
+from aiogram import Router, F
+from aiogram.enums import ChatType
 from aiogram.filters import Command
 from aiogram.types import Message
 
@@ -7,6 +8,7 @@ from ..filters import IsAdminFilter
 from ..ui import get_admin_kb
 
 router = Router()
+router.message.filter(F.chat.type == ChatType.PRIVATE)
 
 
 @router.message(Command("admin"), IsAdminFilter(is_admin=True))
