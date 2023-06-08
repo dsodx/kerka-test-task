@@ -20,7 +20,7 @@ async def setup(*, bot: Bot, dp: Dispatcher, session_pool: async_sessionmaker) -
     await setup_default_commands(bot)
     dp.update.middleware(BanMiddleware(session_pool=session_pool))
     setup_routers(dp=dp, session_pool=session_pool)
-    await setup_webapp(session_pool=session_pool, bot_token=bot.token)
+    await setup_webapp(session_pool=session_pool, bot_token=bot.token, config=config)
 
 
 async def main() -> None:
