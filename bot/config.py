@@ -1,4 +1,10 @@
-from pydantic import BaseSettings, SecretStr, RedisDsn, PostgresDsn, HttpUrl
+from pydantic import BaseSettings, SecretStr, RedisDsn, PostgresDsn, HttpUrl, BaseModel
+
+
+class WebApp(BaseModel):
+    host: str
+    port: int
+    url: HttpUrl
 
 
 class Settings(BaseSettings):
@@ -8,10 +14,7 @@ class Settings(BaseSettings):
     redis_dsn: RedisDsn
     postgres_dsn: PostgresDsn
 
-    webapp_host: str
-    webapp_port: int
-    webapp_url: HttpUrl
-
+    webapp: WebApp
     admin_ids_raw: str
 
     @property
@@ -20,6 +23,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        env_nested_delimiter = "_"
 
 
 config = Settings()
