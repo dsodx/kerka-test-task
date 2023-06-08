@@ -1,6 +1,7 @@
+from typing import Dict, Any
+
 from sqlalchemy.dialects.postgresql import BIGINT, BOOLEAN
 from sqlalchemy.orm import mapped_column, Mapped, DeclarativeBase
-from typing import Dict, Any
 
 
 class Base(DeclarativeBase):

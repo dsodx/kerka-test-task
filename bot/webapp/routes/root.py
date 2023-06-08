@@ -1,5 +1,6 @@
-from aiohttp.web import Request, FileResponse
 from pathlib import Path
+
+from aiohttp.web import Request, FileResponse
 
 path = Path(__file__).parent.parent.parent.parent.resolve() / "static" / "index.html"
 

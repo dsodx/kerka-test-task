@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from .config import config
 from .handlers import setup_routers
-from .ui import setup_default_commands
 from .middlewares import BanMiddleware
+from .ui import setup_default_commands
 from .webapp import setup_webapp
 
 logger = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ async def main() -> None:
     await setup(bot=bot, dp=dp, session_pool=session_pool)
 
     logger.warning("Running bot..")
-    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()+["pollanswer"])
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 
 if __name__ == "__main__":
