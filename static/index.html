@@ -8,6 +8,27 @@
         body {
             font-family: "JetBrains Mono", monospace;
         }
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 2px solid black;
+        }
+        th {
+            background-color: darkorange;
+        }
+        input {
+            width: 25px;
+            padding: 0;
+        }
+        .input {
+            width: 100px;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            display: none;
+        }
     </style>
     <script>
         let webapp = window.Telegram.WebApp;
@@ -24,17 +45,81 @@
                 webapp.close();
             }
         }
-        async function onLoad() {
-            await verifyInitData();
+        async function editBanField(userId) {
+            let r = await fetch("/editBanField", {
+                method: "POST",
+                body: JSON.stringify({
+                    "userId": userId
+                })
+            });
+            let json = await r.json();
+            let bannedTd = document.getElementById("banned-" + userId);
+            bannedTd.innerText = json["is_banned"];
         }
+        async function editBalanceField(userId) {
+            let newBalance = prompt("Новый баланс");
+            let r = await fetch("/editBalanceField", {
+                method: "POST",
+                body: JSON.stringify({
+                    "userId": userId,
+                    "newBalance": newBalance
+                })
+            });
+            let json = await r.json();
+            let balanceTd = document.getElementById("balance-" + userId);
+            balanceTd.innerText = json["new_balance"];
+        }
+        async function getPosts() {
+            let r = await fetch("/getUsers", {
+                method: "POST"
+            });
+
+            let json = await r.json();
+            let users = json["users"];
+            let usersDiv = document.getElementById("users");
+
+            for (let i = 0; i < users.length; ++i) {
+                let user = users[i];
+
+                let idTd = document.createElement("td");
+                idTd.innerText = user["id"];
+
+                let balanceTd = document.createElement("td");
+                balanceTd.innerText = Number(user["balance"]) / 100;
+                balanceTd.setAttribute("onclick", "editBalanceField(" + user["id"] + ")");
+                balanceTd.setAttribute("id", "balance-" + user["id"]);
+
+                let bannedTd = document.createElement("td");
+                bannedTd.innerText = user["banned"];
+                bannedTd.setAttribute("onclick", "editBanField(" + user["id"] +")");
+                bannedTd.setAttribute("id", "banned-" + user["id"]);
+
+                let userDiv = document.createElement("tr");
+                userDiv.appendChild(idTd);
+                userDiv.appendChild(balanceTd);
+                userDiv.appendChild(bannedTd)
+
+                usersDiv.appendChild(userDiv);
+            }
+        }
+        async function onLoad() {
+            let nameH2 = document.getElementById("username");
+            nameH2.innerText += webapp.initDataUnsafe.user.first_name;
+            await verifyInitData();
+            await getPosts();
+        }
+
     </script>
 </head>
 <body onload="onLoad()">
-    <h1>Hello World!</h1>
-    <h2 id="username">@</h2>
-    <script>
-        let nameH2 = document.getElementById("username");
-        nameH2.innerText += webapp.initDataUnsafe.user.username;
-    </script>
+    <h2>List of users</h2>
+    <h3 id="username">Hello,&nbsp;</h3>
+    <table id="users">
+        <tr>
+            <th>ID</th>
+            <th>Balance</th>
+            <th>Banned</th>
+        </tr>
+    </table>
 </body>
 </html>
