@@ -14,5 +14,5 @@ async def setup_webapp(session_pool: async_sessionmaker, bot_token: str, config:
 
     runner = AppRunner(app)
     await runner.setup()
-    site = TCPSite(runner, host="localhost", port=80)
+    site = TCPSite(runner, host=config.webapp_host, port=config.webapp_port)
     await site.start()
