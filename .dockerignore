@@ -1,0 +1,16 @@
+# служебные директории
+.git/
+.idea/
+
+# директория интерпретатора
+venv/
+
+# ненужные файлы
+.gitignore
+.env.dist
+LICENSE
+README.md
+
+# конфиденциалльные данные
+id_rsa
+id_rsa.pub
