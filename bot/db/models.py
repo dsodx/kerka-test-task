@@ -16,6 +16,10 @@ class User(Base):
     banned: Mapped[bool] = mapped_column(BOOLEAN, nullable=False, default=False)
 
     def as_dict(self) -> Dict[str, Any]:
+        """
+        Получить объект пользователя в виде словаря
+        :return: объект пользователя в виде словаря
+        """
         return {
             "id": int(self.id),
             "balance": int(self.balance),
