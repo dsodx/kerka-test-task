@@ -51,10 +51,12 @@
             let r = await fetch("/editBanField", {
                 method: "POST",
                 body: JSON.stringify({
-                    "userId": userId
+                    userId: userId,
+                    initData: webapp.initData
                 })
             });
             let json = await r.json();
+            if (json["is_banned"] == null) return;
             let bannedTd = document.getElementById("banned-" + userId);
             bannedTd.innerText = json["is_banned"];
         }
@@ -65,21 +67,27 @@
             let r = await fetch("/editBalanceField", {
                 method: "POST",
                 body: JSON.stringify({
-                    "userId": userId,
-                    "newBalance": newBalance
+                    userId: userId,
+                    newBalance: newBalance,
+                    initData: webapp.initData
                 })
             });
             let json = await r.json();
+            if (json["new_balance"] == null) return;
             let balanceTd = document.getElementById("balance-" + userId);
             balanceTd.innerText = json["new_balance"];
         }
 
-        async function getPosts() {
+        async function getUsers() {
             let r = await fetch("/getUsers", {
-                method: "POST"
+                method: "POST",
+                body: JSON.stringify({
+                    initData: webapp.initData
+                })
             });
 
             let json = await r.json();
+            if (json["users"] === null) return;
             let users = json["users"];
             let usersDiv = document.getElementById("users");
 
@@ -111,7 +119,7 @@
 
         async function onLoad() {
             await verifyInitData();
-            await getPosts();
+            await getUsers();
         }
 
     </script>
