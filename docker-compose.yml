@@ -13,3 +13,26 @@ services:
       - WEBAPP_PORT
       - WEBAPP_URL
       - ADMIN_IDS_RAW
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:15.3
+    restart: always
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - APP_USER
+      - APP_PASSWORD
+      - APP_DB
+    healthcheck:
+      test: "pg_isready -U ${APP_USER} -d ${APP_DB}"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - "./storage/psql-init.sh:/docker-entrypoint-initdb.d/init-user-db.sh:ro"
+      - "./storage/psql:/var/lib/postgresql/data"
