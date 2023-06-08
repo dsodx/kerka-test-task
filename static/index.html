@@ -60,7 +60,8 @@
         }
 
         async function editBalanceField(userId) {
-            let newBalance = prompt("Новый баланс");
+            let newBalance = prompt("Новый баланс (используйте '+' или '-' для относительных значений)");
+            if (newBalance === "") return;
             let r = await fetch("/editBalanceField", {
                 method: "POST",
                 body: JSON.stringify({
@@ -118,6 +119,7 @@
 <body onload="onLoad()">
     <h2>List of users</h2>
     <h3 id="username">Hello,&nbsp;</h3>
+    <h4>Click on field to change it's value</h4>
     <table id="users">
         <tr>
             <th>ID</th>
