@@ -1,6 +1,6 @@
 from aiogram import Router
-from aiogram.types import Message
 from aiogram.filters import Command
+from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db import get_user_balance

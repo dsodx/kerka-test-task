@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        table {
+            border-spacing: 1px;
+        }
+
+        td, th {
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 5px;
+            width: 85px;
+            height: 35px;
+            text-align: center;
+        }
+
+        th {
+            background-color: darkorange;
+        }
+    </style>
+    <script>
+        let webapp = window.Telegram.WebApp;
+
+        async function verifyInitData() {
+            let r = await fetch("/verifyInitData", {
+                method: "POST",
+                body: JSON.stringify({
+                    initData: webapp.initData
+                })
+            });
+            let json = await r.json()
+            if (!json["ok"]) {
+                webapp.close();
+                window.open("about:blank", "_self");
+            }
+            else {
+                let nameH2 = document.getElementById("username");
+                nameH2.innerText += webapp.initDataUnsafe.user.first_name;
+            }
+        }
+
+        async function editBanField(userId) {
+            let r = await fetch("/editBanField", {
+                method: "POST",
+                body: JSON.stringify({
+                    userId: userId,
+                    initData: webapp.initData
+                })
+            });
+            let json = await r.json();
+            if (json["is_banned"] == null) return;
+            let bannedTd = document.getElementById("banned-" + userId);
+            bannedTd.innerText = json["is_banned"];
+        }
+
+        async function editBalanceField(userId) {
+            let newBalance = prompt("Новый баланс (используйте '+' или '-' для относительных значений)");
+            if (newBalance === "") return;
+            let r = await fetch("/editBalanceField", {
+                method: "POST",
+                body: JSON.stringify({
+                    userId: userId,
+                    newBalance: newBalance,
+                    initData: webapp.initData
+                })
+            });
+            let json = await r.json();
+            if (json["new_balance"] == null) return;
+            let balanceTd = document.getElementById("balance-" + userId);
+            balanceTd.innerText = json["new_balance"];
+        }
+
+        async function getUsers() {
+            let r = await fetch("/getUsers", {
+                method: "POST",
+                body: JSON.stringify({
+                    initData: webapp.initData
+                })
+            });
+
+            let json = await r.json();
+            if (json["users"] === null) return;
+            let users = json["users"];
+            let usersDiv = document.getElementById("users");
+
+            for (let i = 0; i < users.length; ++i) {
+                let user = users[i];
+
+                let idTd = document.createElement("td");
+                idTd.innerText = user["id"];
+
+                let balanceTd = document.createElement("td");
+                balanceTd.innerText = Number(user["balance"]) / 100;
+                balanceTd.setAttribute("onclick", "editBalanceField(" + user["id"] + ")");
+                balanceTd.setAttribute("style", "text-align: right;")
+                balanceTd.setAttribute("id", "balance-" + user["id"]);
+
+                let bannedTd = document.createElement("td");
+                bannedTd.innerText = user["banned"];
+                bannedTd.setAttribute("onclick", "editBanField(" + user["id"] + ")");
+                bannedTd.setAttribute("id", "banned-" + user["id"]);
+
+                let userDiv = document.createElement("tr");
+                userDiv.appendChild(idTd);
+                userDiv.appendChild(balanceTd);
+                userDiv.appendChild(bannedTd)
+
+                usersDiv.appendChild(userDiv);
+            }
+        }
+
+        async function onLoad() {
+            await verifyInitData();
+            await getUsers();
+        }
+
+    </script>
+</head>
+<body onload="onLoad()">
+    <h2>List of users</h2>
+    <h3 id="username">Hello,&nbsp;</h3>
+    <h4>Click on field to change it's value</h4>
+    <table id="users">
+        <tr>
+            <th>ID</th>
+            <th>Balance</th>
+            <th>Banned</th>
+        </tr>
+    </table>
+</body>
+</html>
