@@ -15,6 +15,13 @@ class SessionMiddleware(BaseMiddleware):
             event: TelegramObject,
             data: Dict[str, Any]
     ) -> Any:
+        """
+        Добавить объект сессии в параметры обработчика событий
+        :param handler: объект обработчика событий
+        :param event: объект события
+        :param data: объект данных события
+        :return: результат работы обработчика событий
+        """
         async with self.session_pool() as session:
             data["session"] = session
             return await handler(event, data)
