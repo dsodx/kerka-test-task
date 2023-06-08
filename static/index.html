@@ -63,7 +63,7 @@
 
         async function editBalanceField(userId) {
             let newBalance = prompt("Новый баланс (используйте '+' или '-' для относительных значений)");
-            if (newBalance === "") return;
+            if (newBalance === "" || newBalance == null) return;
             let r = await fetch("/editBalanceField", {
                 method: "POST",
                 body: JSON.stringify({
@@ -89,7 +89,7 @@
             let json = await r.json();
             if (json["users"] === null) return;
             let users = json["users"];
-            let usersDiv = document.getElementById("users");
+            let usersTable = document.getElementById("users");
 
             for (let i = 0; i < users.length; ++i) {
                 let user = users[i];
@@ -108,12 +108,12 @@
                 bannedTd.setAttribute("onclick", "editBanField(" + user["id"] + ")");
                 bannedTd.setAttribute("id", "banned-" + user["id"]);
 
-                let userDiv = document.createElement("tr");
-                userDiv.appendChild(idTd);
-                userDiv.appendChild(balanceTd);
-                userDiv.appendChild(bannedTd)
+                let userTr = document.createElement("tr");
+                userTr.appendChild(idTd);
+                userTr.appendChild(balanceTd);
+                userTr.appendChild(bannedTd)
 
-                usersDiv.appendChild(userDiv);
+                usersTable.appendChild(userTr);
             }
         }
 
