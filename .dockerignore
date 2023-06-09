@@ -11,6 +11,7 @@ venv/
 .env.dist
 LICENSE
 README.md
+*.log
 
 # конфиденциалльные данные
 id_rsa
