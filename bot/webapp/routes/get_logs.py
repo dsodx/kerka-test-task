@@ -1,4 +1,5 @@
 from aiohttp.web import Request, json_response, Response
+import os
 
 from ..utils import verify_init_data
 
@@ -12,8 +13,7 @@ async def get_logs(request: Request) -> Response:
     logs = None
     if await verify_init_data(request):
         with open("logs/warn.log", "rb") as f:
-            f.seek(-10240, 2)
-            logs = f.read(10240).decode("utf-8")  # ограничение на 10 кБ логов
+            logs = os.system("tail -n 100 logs/warn.log")
     return json_response({
         "logs": logs
     })
