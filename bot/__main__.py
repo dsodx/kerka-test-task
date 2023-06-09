@@ -10,6 +10,7 @@ from .config import config
 from .handlers import setup_routers
 from .middlewares import BanMiddleware
 from .ui import setup_default_commands
+from .utils import get_logging_handlers
 from .webapp import setup_webapp
 
 logger = logging.getLogger(__name__)
@@ -36,7 +37,7 @@ async def main() -> None:
     Запуск бота
     :return:
     """
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.INFO, handlers=get_logging_handlers())
 
     engine = create_async_engine(config.postgres_dsn)
     session_pool = async_sessionmaker(engine, expire_on_commit=False)
@@ -57,3 +58,5 @@ if __name__ == "__main__":
         asyncio.run(main())
     except (SystemExit, KeyboardInterrupt):
         logger.warning("Bot stopped")
+    except Exception as e:
+        logging.critical(e)

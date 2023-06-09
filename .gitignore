@@ -11,3 +11,6 @@ id_rsa
 id_rsa.pub
 storage/psql/
 storage/redis/
+
+# логи
+*.log
