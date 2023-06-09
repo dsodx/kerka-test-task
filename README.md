@@ -11,6 +11,10 @@ docker compose run --rm --no-deps bot alembic upgrade head
 ```shell
 docker compose up -d
 ```
+4. Optional. Start tunnel:
+```shell
+ssh -R 80:localhost:8080  # set ports to custom
+```
 
 ## Stack:
 * Docker Compose 2.18
