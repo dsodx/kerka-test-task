@@ -3,6 +3,7 @@ version: "3.9"
 services:
   bot:
     build: .
+    image: dsodx/kerka:latest
     restart: always
     environment:
       - BOT_TOKEN
