@@ -47,9 +47,14 @@
                 window.open("about:blank", "_self");
             }
             else {
-                webapp.expand();
                 let nameH2 = document.getElementById("username");
                 nameH2.innerText += webapp.initDataUnsafe.user.first_name;
+                let button = webapp.MainButton;
+                button.setText("ВЫЙТИ");
+                button.enable();
+                button.onClick(() => {webapp.close();});
+                button.show();
+                webapp.expand();
                 webapp.ready();
             }
         }
