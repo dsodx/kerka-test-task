@@ -37,7 +37,10 @@ async def main() -> None:
     Запуск бота
     :return:
     """
-    logging.basicConfig(level=logging.INFO, handlers=get_logging_handlers())
+    logging.basicConfig(
+        format="%(levelname)-8s [%(asctime)s] :: %(name)s : %(message)s",
+        level=logging.INFO, handlers=get_logging_handlers()
+    )
 
     engine = create_async_engine(config.postgres_dsn)
     session_pool = async_sessionmaker(engine, expire_on_commit=False)

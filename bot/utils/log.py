@@ -15,7 +15,6 @@ def get_logging_handlers() -> tuple:
     info.addFilter(_info_filter)
 
     warn = logging.FileHandler("warn.log")
-    warn.setLevel(logging.WARNING)
     warn.addFilter(_warn_filter)
 
     return console, info, warn
