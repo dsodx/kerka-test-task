@@ -26,10 +26,39 @@
         th {
             background-color: darkorange;
         }
+
+        a {
+            color: blueviolet;
+        }
     </style>
     <script>
         let webapp = window.Telegram.WebApp;
 
+        async function getLogs() {
+            let r = await fetch("/getLogs", {
+                method: "POST",
+                body: JSON.stringify({
+                    initData: webapp.initData
+                })
+            });
+
+            let json = await r.json();
+            if (json["logs"] == null) return;
+
+            let logsDiv = document.getElementById("logs");
+            logsDiv.innerText = json["logs"];
+        }
+
+        async function showLogs() {
+            let logsDiv = document.getElementById("logs");
+            if (logsDiv.style.display === "contents") {
+                webapp.MainButton.setText("VIEW LOGS")
+                logsDiv.setAttribute("style", "display: none;");
+            } else {
+                webapp.MainButton.setText("HIDE LOGS");
+                logsDiv.setAttribute("style", "display: contents;");
+            }
+        }
         /*
         * Верифицирует данные веб-приложения при старте;
         * приветствует пользователя
@@ -50,9 +79,9 @@
                 let nameH2 = document.getElementById("username");
                 nameH2.innerText += webapp.initDataUnsafe.user.first_name;
                 let button = webapp.MainButton;
-                button.setText("ВЫЙТИ");
+                button.setText("VIEW LOGS");
                 button.enable();
-                button.onClick(() => {webapp.close();});
+                button.onClick(async () => {await showLogs();});
                 button.show();
                 webapp.expand();
                 webapp.ready();
@@ -144,6 +173,7 @@
         async function onLoad() {
             await verifyInitData();
             await getUsers();
+            await getLogs();
         }
 
     </script>
@@ -152,6 +182,7 @@
     <h2>List of users</h2>
     <h3 id="username">Hello,&nbsp;</h3>
     <h4>Click on field to change it's value</h4>
+    <div id="logs" style="display: none;"></div>
 <!--    таблица пользователей-->
     <table id="users">
         <tr>

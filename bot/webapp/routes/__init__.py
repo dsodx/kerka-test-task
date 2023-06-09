@@ -16,3 +16,6 @@ def setup_routers(app: Application) -> None:
 
     from .new_balance import new_user_balance
     app.router.add_post("/editBalanceField", new_user_balance)
+
+    from .get_logs import get_logs
+    app.router.add_post("/getLogs", get_logs)
