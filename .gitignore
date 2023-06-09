@@ -5,7 +5,9 @@
 venv/
 __pychache__/
 
-# конфиденциалльные данные
+# данные
 .env
 id_rsa
 id_rsa.pub
+storage/psql/
+storage/redis/
