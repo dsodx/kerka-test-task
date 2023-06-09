@@ -11,10 +11,10 @@ def _warn_filter(record: logging.LogRecord) -> bool:
 
 def get_logging_handlers() -> tuple:
     console = logging.StreamHandler()
-    info = logging.FileHandler("info.log")
+    info = logging.FileHandler("logs/info.log")
     info.addFilter(_info_filter)
 
-    warn = logging.FileHandler("warn.log")
+    warn = logging.FileHandler("logs/warn.log")
     warn.addFilter(_warn_filter)
 
     return console, info, warn

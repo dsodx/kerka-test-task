@@ -20,6 +20,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    volumes:
+      - "./logs/info.log:/app/logs/info.log"
+      - "./logs:warn.log:/app/logs/warn.log"
 
   postgres:
     image: postgres:15.3
