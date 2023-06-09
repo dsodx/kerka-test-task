@@ -12,9 +12,7 @@ async def get_logs(request: Request) -> Response:
     """
     logs = None
     if await verify_init_data(request):
-        with open("logs/warn.log", "rb") as f:
-            logs = os.system("tail -n 100 logs/warn.log")
+        logs = os.system("tail -n 100 logs/warn.log")
     return json_response({
         "logs": logs
     })
-
