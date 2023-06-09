@@ -7,6 +7,7 @@ venv/
 
 # ненужные файлы
 .gitignore
+.env
 .env.dist
 LICENSE
 README.md
