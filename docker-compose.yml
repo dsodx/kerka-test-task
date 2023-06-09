@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   bot:
-    image: ghcr.io/dsodx/kerka:latest
+    build: .
+    image: dsodx/kerka:latest
     restart: always
     environment:
       - BOT_TOKEN
@@ -21,8 +22,7 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - "./logs/info.log:/app/logs/info.log"
-      - "./logs:warn.log:/app/logs/warn.log"
+      - "./logs/:/app/logs/"
 
   postgres:
     image: postgres:15.3
