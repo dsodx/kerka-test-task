@@ -1,5 +1,4 @@
 from aiohttp.web import Request, json_response, Response
-import subprocess
 
 from ..utils import verify_init_data
 
@@ -12,7 +11,10 @@ async def get_logs(request: Request) -> Response:
     """
     logs = None
     if await verify_init_data(request):
-        logs = subprocess.check_output("tail -n 100 logs/warn.log", shell=True)
+        with open("logs/warn.log", "rb") as f:
+            f.seek(0, 2)
+            f.seek(max(-10240, -f.tell()), 2)
+            logs = f.read().decode("utf-8")
     return json_response({
         "logs": logs
     })

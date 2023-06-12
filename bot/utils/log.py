@@ -11,6 +11,7 @@ def _warn_filter(record: logging.LogRecord) -> bool:
 
 def get_logging_handlers() -> tuple:
     console = logging.StreamHandler()
+
     info = logging.FileHandler("logs/info.log")
     info.addFilter(_info_filter)
 
