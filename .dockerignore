@@ -12,6 +12,9 @@ venv/
 LICENSE
 README.md
 *.log
+.dockerignore
+docker-compose.yml
+Dockerfile
 
 # конфиденциалльные данные
 id_rsa
