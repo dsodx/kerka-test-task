@@ -2,16 +2,12 @@
 
 ## Setup
 1. Fill `.env.dist` with your data and rename it to `.env`
-2. Build image:
-```shell
-docker compose build
-```
-3. Optional. Apply migrations:
+2. Optional. Apply migrations:
 ```shell
 docker compose up -d postgres
 docker compose run --rm bot alembic upgrade head
 ```
-4. Run bot:
+3. Run bot:
 ```shell
 docker compose up -d
 ```

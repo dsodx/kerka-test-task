@@ -2,7 +2,6 @@ version: "3.9"
 
 services:
   bot:
-    build: .
     image: ghcr.io/dsodx/kerka:latest
     restart: always
     environment:
