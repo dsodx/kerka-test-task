@@ -3,6 +3,10 @@
 ### [Build from source](https://github.com/dsodx/kerka-test-task/tree/master)
 
 ## Setup
+```shell
+git clone -b non-build https://github.com/dsodx/kerka-test-task.git
+cd kerka-test-task
+```
 1. Fill `.env.dist` with your data and rename it to `.env`
 2. Optional. Apply migrations:
 ```shell
