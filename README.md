@@ -1,5 +1,7 @@
 # Kerka Test Task
 
+### [Don't build from source](https://github.com/dsodx/kerka-test-task/tree/master)
+
 ## Setup
 1. Fill `.env.dist` with your data and rename it to `.env`
 2. Build image:
